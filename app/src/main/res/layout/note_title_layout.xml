@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:paddingVertical="6dp"
+    android:weightSum="100">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="35"
+        android:id="@+id/view_mode_container"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/backToListBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:layout_toStartOf="@id/shareBtn"
+            android:background="?attr/selectableItemBackground"
+           />
+
+        <ImageButton
+            android:id="@+id/shareBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_share_black_24dp"
+            android:background="?attr/selectableItemBackground"
+           />
+
+        <ImageButton
+            android:id="@+id/editBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toEndOf="@id/shareBtn"
+            android:src="@drawable/ic_baseline_edit_24"
+            android:background="?attr/selectableItemBackground"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="35"
+        android:id="@+id/edit_mode_container"
+        android:visibility="visible"
+        >
+
+        <ImageButton
+            android:id="@+id/checkBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toStartOf="@id/undoBtn"
+            android:src="@drawable/ic_check_black_24dp"
+            android:background="?attr/selectableItemBackground"
+           />
+
+        <ImageButton
+            android:id="@+id/undoBtn"
+            android:layout_centerInParent="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_undo_black_24dp"
+            android:background="?attr/selectableItemBackground"
+            />
+
+        <ImageButton
+            android:id="@+id/redoBtn"
+            android:layout_toEndOf="@id/undoBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_redo_black_24dp"
+            android:background="?attr/selectableItemBackground"
+            />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/inputTitle"
+        android:layout_weight="63"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        tools:text="Note title"
+        android:lines="1"
+        android:inputType="text"
+        android:visibility="visible"
+        android:background="#FFF"/>
+
+    <TextView
+        android:id="@+id/titleTxt"
+        android:layout_weight="63"
+        android:layout_width="0dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textColor="#FFF"
+        android:visibility="gone"
+        android:layout_height="match_parent"/>
+
+
+
+
+
+</LinearLayout>
