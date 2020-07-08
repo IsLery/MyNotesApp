@@ -46,7 +46,7 @@
         android:gravity="center"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:text="No notes created"/>
+        android:text="@string/empty_list"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

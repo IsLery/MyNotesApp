@@ -6,12 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.islery.mynotesapp.data.models.Note;
 import com.islery.mynotesapp.data.NoteRepository;
+import com.islery.mynotesapp.data.models.Note;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,13 +23,13 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class NoteListViewModel extends AndroidViewModel {
-    private static final String TAG = "NoteListViewModel";
+
     private LiveData<List<Note>> notesList;
     private NoteRepository repository;
     private Disposable disposable;
     private String searchQuery;
     private Pair<Long, Long> dateRange;
-    MutableLiveData<Map<Filters,Boolean>> filters;
+    private MutableLiveData<Map<Filters,Boolean>> filters;
 
     public NoteListViewModel(@NonNull Application application) {
         super(application);
@@ -52,7 +51,10 @@ public class NoteListViewModel extends AndroidViewModel {
 
         notesList = Transformations.switchMap(filters,map -> {
             if (dateRange!=null){
-                return repository.getNotesInDateRange(dateRange);
+                if (map.get(Filters.HAS_SEARCH)){
+                    return repository.getSearchInDateRange(dateRange,map.get(Filters.ORDER_ASC),map.get(Filters.SORT_BY_ALPHA),searchQuery);
+                }
+                return repository.getNotesInDateRange(dateRange,map.get(Filters.ORDER_ASC),map.get(Filters.SORT_BY_ALPHA));
             }
             if (map.get(Filters.HAS_SEARCH)){
                return repository.getOrderedSearchNotes(map.get(Filters.ORDER_ASC),map.get(Filters.SORT_BY_ALPHA),searchQuery);
@@ -65,7 +67,6 @@ public class NoteListViewModel extends AndroidViewModel {
 
     LiveData<List<Note>> getNoteLiveData(){
         return notesList;
-      //  return noteLiveData;
     }
 
     void getSearchResult(String query){

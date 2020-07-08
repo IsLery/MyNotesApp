@@ -17,6 +17,7 @@
 
         <ImageButton
             android:id="@+id/backToListBtn"
+            android:contentDescription="@string/back_to_list_of_notes"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_arrow_back_black_24dp"
@@ -26,6 +27,7 @@
 
         <ImageButton
             android:id="@+id/shareBtn"
+            android:contentDescription="@string/share_this_note"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
@@ -35,6 +37,7 @@
 
         <ImageButton
             android:id="@+id/editBtn"
+            android:contentDescription="@string/edit_this_note"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_toEndOf="@id/shareBtn"
@@ -54,6 +57,7 @@
 
         <ImageButton
             android:id="@+id/checkBtn"
+            android:contentDescription="@string/save_changes_of_your_note"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_toStartOf="@id/undoBtn"
@@ -63,6 +67,7 @@
 
         <ImageButton
             android:id="@+id/undoBtn"
+            android:contentDescription="@string/undo_changes"
             android:layout_centerInParent="true"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -72,6 +77,7 @@
 
         <ImageButton
             android:id="@+id/redoBtn"
+            android:contentDescription="@string/redo_changes"
             android:layout_toEndOf="@id/undoBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"

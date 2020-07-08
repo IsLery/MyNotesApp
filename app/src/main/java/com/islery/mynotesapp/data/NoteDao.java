@@ -19,28 +19,31 @@ public interface NoteDao {
     long[] insertNotes(Note... notes);
     //will return numbers of inserted, void is ok
 
-    @Query("SELECT * FROM notes_table ORDER BY timestamp DESC") // take all notes from the speciied table
-    LiveData<List<Note>> getNotes();
+    @Query("SELECT * FROM notes_table WHERE timestamp BETWEEN :from AND :to ORDER BY"
+            + " CASE WHEN :isAsc = 1 AND :isAlphabetic = 1 THEN title END COLLATE NOCASE ASC, "
+            + "CASE WHEN :isAsc = 0 AND :isAlphabetic = 1 THEN title END COLLATE NOCASE DESC, "
+            + "CASE WHEN :isAsc = 0 AND :isAlphabetic = 0 THEN timestamp END DESC, "
+            + "CASE WHEN :isAsc = 1 AND :isAlphabetic = 0 THEN timestamp END ASC")
+    LiveData<List<Note>> getNotesInDateRange(long from, long to, boolean isAsc, boolean isAlphabetic);
 
+    @Query("SELECT * FROM notes_table WHERE (timestamp BETWEEN :from AND :to) AND (title LIKE :query OR content LIKE :query) ORDER BY"
+            + " CASE WHEN :isAsc = 1 AND :isAlphabetic = 1 THEN title END COLLATE NOCASE ASC, "
+            + "CASE WHEN :isAsc = 0 AND :isAlphabetic = 1 THEN title END COLLATE NOCASE DESC, "
+            + "CASE WHEN :isAsc = 0 AND :isAlphabetic = 0 THEN timestamp END DESC, "
+            + "CASE WHEN :isAsc = 1 AND :isAlphabetic = 0 THEN timestamp END ASC")
+    LiveData<List<Note>> getSearchInDateRange(long from, long to, boolean isAsc, boolean isAlphabetic,String query);
 
-
-    @Query("SELECT * FROM notes_table WHERE timestamp BETWEEN :from AND :to ORDER BY timestamp ASC") // take all notes in a date range
-    LiveData<List<Note>> getNotesInDateRange(long from, long to);
-
-
-    @Query("SELECT * FROM notes_table WHERE title LIKE :query OR content LIKE :query ")
-    LiveData<List<Note>> getNoteCustomQuery(String query);
 
     @Query("SELECT * FROM notes_table ORDER BY CASE WHEN :isAsc = 1 AND :isAlphabetic = 1 THEN title END COLLATE NOCASE ASC, "
-    +"CASE WHEN :isAsc = 0 AND :isAlphabetic = 1 THEN title END COLLATE NOCASE DESC, "
-    +"CASE WHEN :isAsc = 0 AND :isAlphabetic = 0 THEN timestamp END DESC, "
-    +"CASE WHEN :isAsc = 1 AND :isAlphabetic = 0 THEN timestamp END ASC")
+            + "CASE WHEN :isAsc = 0 AND :isAlphabetic = 1 THEN title END COLLATE NOCASE DESC, "
+            + "CASE WHEN :isAsc = 0 AND :isAlphabetic = 0 THEN timestamp END DESC, "
+            + "CASE WHEN :isAsc = 1 AND :isAlphabetic = 0 THEN timestamp END ASC")
     LiveData<List<Note>> getNotesOrdered(boolean isAsc, boolean isAlphabetic);
 
     @Query("SELECT * FROM notes_table WHERE title LIKE :query OR content LIKE :query ORDER BY CASE WHEN :isAsc = 1 AND :isAlphabetic = 1 THEN title END ASC, "
-            +"CASE WHEN :isAsc = 0 AND :isAlphabetic = 1 THEN title END DESC, "
-            +"CASE WHEN :isAsc = 0 AND :isAlphabetic = 0 THEN timestamp END DESC, "
-            +"CASE WHEN :isAsc = 1 AND :isAlphabetic = 0 THEN timestamp END ASC")
+            + "CASE WHEN :isAsc = 0 AND :isAlphabetic = 1 THEN title END DESC, "
+            + "CASE WHEN :isAsc = 0 AND :isAlphabetic = 0 THEN timestamp END DESC, "
+            + "CASE WHEN :isAsc = 1 AND :isAlphabetic = 0 THEN timestamp END ASC")
     LiveData<List<Note>> getNoteSearchOrderedQuery(boolean isAsc, boolean isAlphabetic, String query);
 
     @Delete

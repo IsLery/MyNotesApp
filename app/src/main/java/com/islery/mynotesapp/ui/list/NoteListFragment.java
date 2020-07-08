@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,6 +56,7 @@ public class NoteListFragment extends Fragment implements NoteListAdapter.OnNote
         inflater.inflate(R.menu.menu,menu);
         MenuItem searchItem = menu.findItem(R.id.app_bar_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
