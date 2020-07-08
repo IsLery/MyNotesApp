@@ -161,6 +161,7 @@ public class NoteListFragment extends Fragment implements NoteListAdapter.OnNote
         return binding.getRoot();
     }
 
+
     private void initRv(){
         adapter = new NoteListAdapter(this);
         binding.notesRv.setLayoutManager(new LinearLayoutManager(requireContext()));

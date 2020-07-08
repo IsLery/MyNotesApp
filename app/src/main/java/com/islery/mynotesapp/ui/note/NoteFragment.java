@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -142,15 +143,18 @@ public class NoteFragment extends Fragment implements View.OnClickListener  {
         toolbarBinding.titleTxt.setVisibility(View.GONE);
 
         toolbarBinding.redoBtn.setEnabled(false);
+        binding.noteContent.setEnabled(true);
         isEditMode = true;
     }
 
-    private void disableEditMode(){
+    public void disableEditMode(){
         toolbarBinding.viewModeContainer.setVisibility(View.VISIBLE);
         toolbarBinding.editModeContainer.setVisibility(View.GONE);
         toolbarBinding.inputTitle.setVisibility(View.GONE);
         toolbarBinding.titleTxt.setVisibility(View.VISIBLE);
         toolbarBinding.titleTxt.setText(toolbarBinding.inputTitle.getText());
+        binding.noteContent.setEnabled(false);
+        binding.noteContent.setTextColor(Color.DKGRAY);
         isEditMode = false;
         textManager.clear();
     }
@@ -196,6 +200,10 @@ public class NoteFragment extends Fragment implements View.OnClickListener  {
 
 
 
+    public boolean isOldItemInEditMode(){
+    return isEditMode && !isNewNote;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -240,10 +248,8 @@ public class NoteFragment extends Fragment implements View.OnClickListener  {
        NoteData data = textManager.undoIsCalled();
 
         if (data.getId() == R.id.inputTitle){
-            Log.d(TAG, "undoTextChanges: title"+data.getText());
             toolbarBinding.inputTitle.setText(data.getText());
         }else if (data.getId() == R.id.noteContent){
-            Log.d(TAG, "undoTextChanges: content"+data.getText());
             binding.noteContent.setText(data.getText());
         }
         toolbarBinding.redoBtn.setEnabled(true);
@@ -256,10 +262,8 @@ public class NoteFragment extends Fragment implements View.OnClickListener  {
     private void redoTextChanges(){
         NoteData data = textManager.redoIsCalled();
         if (data.getId() == R.id.inputTitle){
-            Log.d(TAG, "redoTextChanges: title"+data.getText());
             toolbarBinding.inputTitle.setText(data.getText());
         }else if (data.getId() == R.id.noteContent){
-            Log.d(TAG, "redoTextChanges: content"+data.getText());
             binding.noteContent.setText(data.getText());
         }
         toolbarBinding.undoBtn.setEnabled(true);

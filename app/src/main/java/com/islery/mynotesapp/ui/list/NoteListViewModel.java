@@ -33,7 +33,7 @@ public class NoteListViewModel extends AndroidViewModel {
 
     public NoteListViewModel(@NonNull Application application) {
         super(application);
-        repository = new NoteRepository(application);
+        repository = NoteRepository.getInstance(application.getApplicationContext());
         searchQuery = "";
         Map<Filters,Boolean> mapFilters = new HashMap<>(2);
         //SORT BY DATE or ALPHABETIC

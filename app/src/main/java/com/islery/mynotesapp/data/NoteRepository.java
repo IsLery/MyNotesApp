@@ -14,10 +14,17 @@ public class NoteRepository {
 
     private static final String TAG = "NoteRepository";
 
+    private static NoteRepository instance;
 
     private NoteDatabase noteDatabase;
 
-    public NoteRepository(Context context){
+    public static NoteRepository getInstance(Context context){
+        if (instance == null){
+            instance = new NoteRepository(context);
+        }
+        return instance;
+    }
+    private NoteRepository(Context context){
         noteDatabase = NoteDatabase.getInstance(context);
     }
 

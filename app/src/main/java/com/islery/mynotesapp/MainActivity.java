@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.islery.mynotesapp.databinding.ActivityMainBinding;
 import com.islery.mynotesapp.ui.list.NoteListFragment;
+import com.islery.mynotesapp.ui.note.NoteFragment;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -27,10 +28,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("note_fragment");
-        if (fragment != null){
-            Log.d(TAG, "onBackPressed: back from fragment");
-            getSupportFragmentManager().popBackStack();
+        Fragment fragment = getSupportFragmentManager().getPrimaryNavigationFragment();
+        if (fragment instanceof NoteFragment){
+            NoteFragment noteFragment = (NoteFragment) fragment;
+            if (noteFragment.isOldItemInEditMode()){
+                noteFragment.disableEditMode();
+            }else {
+                getSupportFragmentManager().popBackStack();
+            }
         }else {
             super.onBackPressed();
         }

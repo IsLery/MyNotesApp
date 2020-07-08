@@ -25,17 +25,14 @@ public class NoteViewModel extends AndroidViewModel {
 
     public NoteViewModel(@NonNull Application application) {
         super(application);
-        repository = new NoteRepository(application.getApplicationContext());
+        repository = NoteRepository.getInstance(application.getApplicationContext());
         manager = new UndoRedoTextManager();
     }
 
    public void saveNewNote(final Note note){
-       Callable<Void> callable = new Callable<Void>() {
-           @Override
-           public Void call() throws Exception {
-               repository.insertNoteTask(note);
-               return null;
-           }
+       Callable<Void> callable = () -> {
+           repository.insertNoteTask(note);
+           return null;
        };
        disposable = Completable.fromCallable(callable).subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())
@@ -43,12 +40,9 @@ public class NoteViewModel extends AndroidViewModel {
    }
 
    public void updateNote(final Note note){
-       Callable<Void> callable = new Callable<Void>() {
-           @Override
-           public Void call() throws Exception {
-               repository.updateNoteTask(note);
-               return null;
-           }
+       Callable<Void> callable = () -> {
+           repository.updateNoteTask(note);
+           return null;
        };
        disposable = Completable.fromCallable(callable).subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())
@@ -56,12 +50,9 @@ public class NoteViewModel extends AndroidViewModel {
    }
 
     public void deleteNote(final Note note){
-        Callable<Void> callable = new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                repository.deleteNoteTask(note);
-                return null;
-            }
+        Callable<Void> callable = () -> {
+            repository.deleteNoteTask(note);
+            return null;
         };
         disposable = Completable.fromCallable(callable).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
